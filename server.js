@@ -7,15 +7,16 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // =========================================================
 // HELPER: Auto-Detect Language from User's Typed/Spoken Text
 // =========================================================
-function detectLanguage(text, defaultLang = 'en') {
+function detectLanguage(text = '', defaultLang = 'en') {
   if (/[\u0900-\u097F]/.test(text)) return 'hi'; // Hindi (Devanagari script)
   if (/[\u0A00-\u0A7F]/.test(text)) return 'pa'; // Punjabi (Gurmukhi script)
   if (/[\u0C00-\u0C7F]/.test(text)) return 'te'; // Telugu script
-  return defaultLang || 'en';
+  return uiLabels[defaultLang] ? defaultLang : 'en';
 }
 
 // =========================================================
@@ -42,7 +43,7 @@ const uiLabels = {
     certProcess: "<b>BIS Certification Process (ISI Mark / CRS):</b><br>1. Identify the applicable Indian Standard (IS) for your product.<br>2. Submit an application on the <b>Manakonline (e-BIS)</b> portal.<br>3. Product sample testing in a BIS-recognized lab & factory inspection.<br>4. Grant of License (Option 2 simplified procedure grants licenses within 30 days for domestic industry/MSMEs).",
     hallmarkInfo: "<b>BIS Hallmarking</b> guarantees the purity of gold and silver jewellery.<br>Always check for 3 symbols:<br>• <b>BIS Standard Mark</b> (Triangle logo)<br>• <b>Purity/Fineness Grade</b> (e.g., 22K916, 18K750)<br>• <b>6-Digit Alphanumeric HUID Code</b> (can be verified on the BIS Care App).",
     labInfo: "BIS operates Central, Regional, and Branch Laboratories across India, alongside external recognized labs under the <b>BIS LIMS (Laboratory Information Management System)</b> portal.",
-    fallback: "I specialize in Indian Standards (IS), certifications, and hallmarking. Try searching an IS code (e.g., IS 1165, IS 14433, IS 269, IS 1786) or a product name (e.g., Milk Powder, Infant Milk, Cement, TMT Bars, Helmet, Irrigation Pipe, Patanjali Biscuit)."
+    fallback: "I specialize in Indian Standards (IS), certifications, and hallmarking. Try searching an IS code (e.g., IS 1165, IS 14433, IS 269, IS 1786) or a product name (e.g., Milk Powder, Skimmed Milk Powder, Infant Milk, Cement, TMT Bars, Helmet, Irrigation Pipe, Patanjali Biscuit)."
   },
   hi: {
     stdFound: "मानक विवरण (Standard Found)",
@@ -116,7 +117,7 @@ const uiLabels = {
 // DATABASE 1: Complete IS Standards (Civil, Electrical, Food, Dairy & Agri)
 // =========================================================
 const detailedStandardsDB = [
-  // --- NEW FOOD, DAIRY, INFANT NUTRITION, WATER & AGRICULTURE STANDARDS ---
+  // --- FOOD, DAIRY, INFANT NUTRITION, WATER & AGRICULTURE STANDARDS ---
   {
     id: "IS-1165",
     isNumber: "IS 1165:2022",
@@ -671,7 +672,7 @@ const detailedStandardsDB = [
         category: "ఆహారం & వ్యవసాయం - పానీయాలు & నీరు",
         ministry: "ఆరోగ్య మరియు కుటుంబ సంక్షేమ మంత్రిత్వ శాఖ (FSSAI)",
         scheme: "స్కీమ్-I (ISI మార్క్)",
-        description: "ఫిల్టరేషన్, రివర్స్ ఆస్మోసిస్ (RO) లేదా UV ద్వారా శుద్ధి చేయబడి సీల్డ్ కంటైనర్లలో ప్యాక్ చేయబడిన త్రాగునీరు."
+        description: "ఫిల్టరేਸ਼ਨ, రివర్స్ ఆస్మోసిస్ (RO) లేదా UV ద్వారా శుద్ధి చేయబడి సీల్డ్ కంటైనర్లలో ప్యాక్ చేయబడిన త్రాగునీరు."
       }
     },
     details: {
@@ -778,7 +779,7 @@ const detailedStandardsDB = [
     }
   },
 
-  // --- PREVIOUS CIVIL, ELECTRICAL & IT STANDARDS ---
+  // --- CIVIL, ELECTRICAL & IT STANDARDS ---
   {
     id: "IS-269",
     isNumber: "IS 269:2015",
@@ -846,6 +847,20 @@ const detailedStandardsDB = [
         ministry: "वाणिज्य और उद्योग मंत्रालय (DPIIT)",
         scheme: "योजना-I (ISI मार्क)",
         description: "जिप्सम के साथ पोर्टलैंड सीमेंट क्लिंकर और पोजोलाना (भाग 1 में फ्लाई ऐश, भाग 2 में कैल्साइंड क्ले) को पीसकर बनाया गया मिश्रित सीमेंट।"
+      },
+      pa: {
+        productName: "ਪੋਰਟਲੈਂਡ ਪੋਜ਼ੋਲਾਨਾ ਸੀਮਿੰਟ (PPC) - ਫਲਾਈ ਐਸ਼ ਅਤੇ ਕੈਲਸਾਈਂਡ ਕਲੇ ਅਧਾਰਤ",
+        category: "ਸੀਮਿੰਟ ਅਤੇ ਕੰਕਰੀਟ",
+        ministry: "ਵਣਜ ਅਤੇ ਉਦਯੋਗ ਮੰਤਰਾਲਾ (DPIIT)",
+        scheme: "ਸਕੀਮ-I (ISI ਮਾਰਕ)",
+        description: "ਜਿਪਸਮ ਦੇ ਨਾਲ ਪੋਰਟਲੈਂਡ ਸੀਮਿੰਟ ਕਲਿੰਕਰ ਅਤੇ ਪੋਜ਼ੋਲਾਨਾ ਨੂੰ ਪੀਸ ਕੇ ਬਣਾਇਆ ਗਿਆ ਮਿਸ਼ਰਤ ਸੀਮਿੰਟ।"
+      },
+      te: {
+        productName: "పోర్ట్‌ల్యాండ్ పొజోలానా సిమెంట్ (PPC) - ఫ్లై యాష్ & కాల్సైన్డ్ క్లే ఆధారిత",
+        category: "సిమెంట్ మరియు కాంక్రీటు",
+        ministry: "వాణిజ్య మరియు పరిశ్రమల మంత్రిత్వ శాఖ (DPIIT)",
+        scheme: "స్కీమ్-I (ISI మార్క్)",
+        description: "జిప్సమ్‌తో పోర్ట్‌ల్యాండ్ సిమెంట్ క్లింకర్ మరియు పొజోలానాను కలపడం ద్వారా తయారు చేయబడిన బ్లెండెడ్ సిమెంట్."
       }
     },
     details: {
@@ -1192,7 +1207,16 @@ function formatStandardHTML(item, lang = 'en') {
 
   const d = item.details;
   let specsHTML = '';
-  const formatKey = (key) => key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+
+  // Keeps acronyms (MSNF, SO3, pH) and numbers readable instead of splitting every capital letter
+  const formatKey = (key) => {
+    if (key === 'pH') return 'pH';
+    return key
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+      .replace(/([a-zA-Z])(\d+)/g, '$1 $2')
+      .replace(/^./, str => str.toUpperCase());
+  };
 
   for (const [key, value] of Object.entries(d)) {
     if (key === 'description') continue;
@@ -1228,6 +1252,45 @@ function formatStandardHTML(item, lang = 'en') {
 }
 
 // =========================================================
+// HELPER: Find Best Matching Standard by Keyword Specificity
+// =========================================================
+function findBestStandardMatch(lowerQuery) {
+  let bestMatch = null;
+  let highestScore = 0;
+
+  for (const item of detailedStandardsDB) {
+    let itemScore = 0;
+
+    // 1. Check keywords (longer matched keywords get a higher specificity score)
+    for (const kw of item.keywords) {
+      const lowerKw = kw.toLowerCase();
+      if (lowerQuery === lowerKw) {
+        itemScore = Math.max(itemScore, 100 + lowerKw.length);
+      } else if (lowerQuery.includes(lowerKw)) {
+        itemScore = Math.max(itemScore, 50 + lowerKw.length);
+      }
+    }
+
+    // 2. Check productName only if query is at least 3 chars (prevents matching "a", "in", "or")
+    const lowerProdName = item.productName.toLowerCase();
+    if (lowerQuery.length >= 3) {
+      if (lowerProdName === lowerQuery) {
+        itemScore = Math.max(itemScore, 120);
+      } else if (lowerProdName.includes(lowerQuery)) {
+        itemScore = Math.max(itemScore, 30 + lowerQuery.length);
+      }
+    }
+
+    if (itemScore > highestScore) {
+      highestScore = itemScore;
+      bestMatch = item;
+    }
+  }
+
+  return bestMatch;
+}
+
+// =========================================================
 // API ENDPOINT 1: Get Directory List for Right Panel Search
 // =========================================================
 app.get('/api/standards', (req, res) => {
@@ -1246,13 +1309,18 @@ app.get('/api/standards', (req, res) => {
 // API ENDPOINT 2: Main Chat Route (Multilingual)
 // =========================================================
 app.post('/api/chat', (req, res) => {
-  const { query, lang = 'en' } = req.body;
-  const rawQuery = (query || '').trim();
+  const { query = '', lang = 'en' } = req.body || {};
+  const rawQuery = String(query).trim();
   const lowerQuery = rawQuery.toLowerCase();
 
   // Auto-detect language from user's script, or fall back to dropdown selection
   const activeLang = detectLanguage(rawQuery, lang);
   const t = uiLabels[activeLang] || uiLabels['en'];
+
+  // Guard against empty queries
+  if (!lowerQuery) {
+    return res.json({ answer: t.fallback });
+  }
 
   // 1. Handle Camera / Image Upload Requests
   if (lowerQuery.includes('analyze uploaded image')) {
@@ -1286,12 +1354,15 @@ app.post('/api/chat', (req, res) => {
   }
 
   // 3. Check for IS Code + Optional Part Number (e.g., "IS 13334 Part 2", "IS-13334-1", "IS 1165")
-  if (lowerQuery.includes('13334') && (lowerQuery.includes('part 2') || lowerQuery.includes('-2') || lowerQuery.includes('extra'))) {
+  if (
+    lowerQuery.includes('13334') &&
+    /(part\s*2|-2|extra|भाग\s*2|एक्स्ट्रा|ਭਾਗ\s*2|ਐਕਸਟਰਾ|పార్ట్\s*2|ఎక్స్‌ట్రా)/.test(lowerQuery)
+  ) {
     const part2 = detailedStandardsDB.find(item => item.id === 'IS-13334-2');
     if (part2) return res.json({ answer: formatStandardHTML(part2, activeLang) });
   }
 
-  const isCodeMatch = lowerQuery.match(/(?:is[\s\-]?)?(\d{3,5})/);
+  const isCodeMatch = lowerQuery.match(/\b(?:is[\s\-:]*)?(\d{3,5})\b/);
   if (isCodeMatch) {
     const num = isCodeMatch[1];
     const matchedStd = detailedStandardsDB.find(item =>
@@ -1304,12 +1375,8 @@ app.post('/api/chat', (req, res) => {
     }
   }
 
-  // 4. Search Detailed Standards DB by Product Name or Multilingual Keywords
-  const matchedByKeyword = detailedStandardsDB.find(item =>
-    item.productName.toLowerCase().includes(lowerQuery) ||
-    item.keywords.some(kw => lowerQuery.includes(kw))
-  );
-
+  // 4. Search Detailed Standards DB by Best-Matching Keyword or Product Name
+  const matchedByKeyword = findBestStandardMatch(lowerQuery);
   if (matchedByKeyword) {
     return res.json({ answer: formatStandardHTML(matchedByKeyword, activeLang) });
   }
@@ -1326,7 +1393,7 @@ app.post('/api/chat', (req, res) => {
   }
 
   // 6. Fallback in User's Language
-  res.json({ answer: t.fallback });
+  return res.json({ answer: t.fallback });
 });
 
 // Start the server
