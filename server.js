@@ -180,9 +180,7 @@ const detailedStandardsDB = [
     category: "Food & Related Products",
     ministry: "Ministry of Consumer Affairs / FSSAI",
     scheme: "Option 2 (Simplified Procedure)",
-    ChemicalLimits: "Moisture: Max 5% by mass (as specified in the BIS product manual summary; verify the biscuit category and applicable table).   Acid Insoluble Ash: Maximum as specified in Table 1 of IS 1011:2002.   Acidity of Extracted Fat: Expressed as oleic acid; maximum as specified in Table 1.",
-    PhysicalQuality: "Texture: Crisp and properly baked.     Appearance: Uniform texture and appearance.     Sensory Quality: Must meet the applicable organoleptic requirements. ",
-    Packaging: "Packaging must comply with the requirements of IS 1011:2002, Clause 7.1. ",
+    
     sourcePdf: "IS list 1.pdf",
     translations: {
       hi: {
@@ -208,7 +206,20 @@ const detailedStandardsDB = [
       }
     },
     details: {
-      description: "Prescribes the requirements and methods of sampling and testing for various types of baked biscuits."
+      description: "Prescribes the requirements and methods of sampling and testing for various types of baked biscuits.",
+      ChemicalLimits: {
+        Moisture: "Max 5% by mass (as specified in the BIS product manual summary; verify the biscuit category and applicable table).",
+        AcidInsolubleAsh:" Maximum as specified in Table 1 of IS 1011:2002.",
+        AcidityofExtractedFat: "Expressed as oleic acid; maximum as specified in Table 1.",
+      },
+      PhysicalQuality: {
+        Texture: "Crisp and properly baked. ",
+        Appearance: "Uniform texture and appearance.",
+        SensoryQuality: " Must meet the applicable organoleptic requirements. ",
+      },
+      Packaging: {
+        Packaging:" Packaging must comply with the requirements of IS 1011:2002, Clause 7.1. ",
+      },
     }
   },
   {
