@@ -125,11 +125,7 @@ const detailedStandardsDB = [
     ministry: "Ministry of Commerce and Industry (DPIIT)",
     scheme: "Scheme-I (ISI Mark) / CRS",
     sourcePdf: "IS list 1, 2 & 3",
-    TestingCompliance:" - General Requirements: IS 302 (Part 1):2024.   Product-Specific Requirements: Relevant IS 302 Part 2 section.   International Equivalent: IEC 60335-1:2020.",
-    ElectricalSafety: "Rated Voltage: Up to 250 V for single-phase appliances and 480 V for other appliances under the 2024 standard.",
-    ThermalFireSafety:"- Temperature Rise: Must remain within the applicable limits during specified operating tests.   Abnormal Operation: Must meet safety requirements under specified abnormal operating conditions.   Fire Resistance: Applicable components must satisfy prescribed fire and heat safety tests.",
-    MechanicalSafety:"- Mechanical Strength: Must meet the applicable mechanical strength requirements. Moving Parts:   Must provide protection against relevant mechanical hazards.      Stability: Must satisfy applicable stability and construction requirements.",
-    description:"IS 302 does not specify one universal numerical limit for leakage current, temperature rise, or insulation for every appliance. Those values depend on the appliance type, test conditions, and relevant Part 2 requirements. The official BIS standard and product-specific section must be consulted before assigning exact values.",
+    
     
     translations: {
       hi: {
@@ -155,7 +151,25 @@ const detailedStandardsDB = [
       }
     },
     details: {
-      description: "Covers general and particular safety requirements for household electrical appliances (e.g., electric irons, heaters, microwave ovens, rice cookers) to prevent shock and fire hazards[cite: 5, 6, 7, 8, 9, 10]."
+      description: "IS 302 does not specify one universal numerical limit for leakage current, temperature rise, or insulation for every appliance. Those values depend on the appliance type, test conditions, and relevant Part 2 requirements. The official BIS standard and product-specific section must be consulted before assigning exact values. Covers general and particular safety requirements for household electrical appliances (e.g., electric irons, heaters, microwave ovens, rice cookers) to prevent shock and fire hazards[cite: 5, 6, 7, 8, 9, 10].",
+      TestingCompliance:{
+        GeneralRequirements: "IS 302 (Part 1):2024.",
+        ProductSpecificRequirements: "Relevant IS 302 Part 2 section.",
+        InternationalEquivalent: "IEC 60335-1:2020."
+      },
+    ElectricalSafety: {
+      RatedVoltage: "Up to 250 V for single-phase appliances and 480 V for other appliances under the 2024 standard.",
+    },
+    ThermalFireSafety:{
+      TemperatureRise:" Must remain within the applicable limits during specified operating tests.",
+      AbnormalOperation:" Must meet safety requirements under specified abnormal operating conditions. ",
+      FireResistance: "Applicable components must satisfy prescribed fire and heat safety tests.",
+    },
+    MechanicalSafety:{
+      MechanicalStrength:" Must meet the applicable mechanical strength requirements.",
+      MovingParts:" Must provide protection against relevant mechanical hazards.",
+      Stability: "Must satisfy applicable stability and construction requirements.",
+    },
     }
   },
   {
